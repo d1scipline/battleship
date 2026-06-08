@@ -1,13 +1,17 @@
 export class Gameboard {
   constructor() {
-    this.grid = [];
-    const gridSize = 10;
-    for (let i = 0; i < gridSize; i++) {
-      this.grid.push([]);
+    this.shipGrid = [];
+    this.attackGrid = [];
+    this.ships = [];
+    this.gridSize = 10;
+    for (let i = 0; i < this.gridSize; i++) {
+      this.shipGrid.push([]);
+      this.attackGrid.push([]);
     }
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        this.grid[i].push(null);
+    for (let i = 0; i < this.gridSize; i++) {
+      for (let j = 0; j < this.gridSize; j++) {
+        this.shipGrid[i].push(null);
+        this.attackGrid[i].push(null);
       }
     }
   }
@@ -17,14 +21,14 @@ export class Gameboard {
     let size = ship.size;
     if (direction == "V") {
       for (let i = 0; i < size; i++) {
-        if (this.grid[row + i][col] != null) {
+        if (this.shipGrid[row + i][col] != null) {
           return false;
         }
       }
       return true;
     } else {
       for (let i = 0; i < size; i++) {
-        if (this.grid[row][col + i] != null) {
+        if (this.shipGrid[row][col + i] != null) {
           return false;
         }
       }
@@ -35,13 +39,25 @@ export class Gameboard {
   //Checks borders and if the coords are valid
   checkBorders(ship, row, col, direction) {
     if (direction == "H") {
-      if (col + ship.size > 10 || row < 0 || row > 9 || col < 0 || col > 9) {
+      if (
+        col + ship.size > this.gridSize ||
+        row < 0 ||
+        row > this.gridSize - 1 ||
+        col < 0 ||
+        col > this.gridSize - 1
+      ) {
         return false;
       } else {
         return true;
       }
     } else if (direction == "V") {
-      if (row + ship.size > 10 || row < 0 || row > 9 || col < 0 || col > 9) {
+      if (
+        row + ship.size > this.gridSize ||
+        row < 0 ||
+        row > this.gridSize - 1 ||
+        col < 0 ||
+        col > this.gridSize - 1
+      ) {
         return false;
       } else {
         return true;
@@ -62,16 +78,42 @@ export class Gameboard {
 
     if (direction == "V") {
       for (let i = 0; i < ship.size; i++) {
-        this.grid[row + i][col] = ship;
+        this.shipGrid[row + i][col] = ship;
       }
+      this.ships.push(ship);
       return true;
     } else if (direction == "H") {
       for (let i = 0; i < ship.size; i++) {
-        this.grid[row][col + i] = ship;
+        this.shipGrid[row][col + i] = ship;
       }
+      this.ships.push(ship);
       return true;
     } else {
       return false;
     }
+  }
+
+  receiveAttack(row, col) {
+    if (this.attackGrid[row][col] == 1 || this.attackGrid[row][col] == 0) {
+      return false;
+    } else {
+      if (this.shipGrid[row][col] != null) {
+        this.shipGrid[row][col].hit();
+        this.attackGrid[row][col] = 1;
+        return true;
+      } else {
+        this.attackGrid[row][col] = 0;
+        return true;
+      }
+    }
+  }
+
+  allShipsSunk() {
+    for (const ship of this.ships) {
+      if (!ship.isSunk()) {
+        return false;
+      }
+    }
+    return true;
   }
 }
