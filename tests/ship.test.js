@@ -1,4 +1,4 @@
-import { Ship } from "./ship";
+import { Ship } from "../src/ship";
 
 test("Ship is constructed correctly", () => {
   const size = 3;
