@@ -95,15 +95,15 @@ export class Gameboard {
 
   receiveAttack(row, col) {
     if (this.attackGrid[row][col] == 1 || this.attackGrid[row][col] == 0) {
-      return false;
+      return -1;
     } else {
       if (this.shipGrid[row][col] != null) {
         this.shipGrid[row][col].hit();
         this.attackGrid[row][col] = 1;
-        return true;
+        return 1;
       } else {
         this.attackGrid[row][col] = 0;
-        return true;
+        return 0;
       }
     }
   }
@@ -115,5 +115,69 @@ export class Gameboard {
       }
     }
     return true;
+  }
+
+  getPublicBoard() {
+    const board = [];
+    for (let row = 0; row < this.gridSize; row++) {
+      board.push([]);
+      for (let col = 0; col < this.gridSize; col++) {
+        if (this.attackGrid[row][col] == null) {
+          //Empty
+          board[row].push(0);
+        } else if (this.attackGrid[row][col] == 0) {
+          //Miss
+          board[row].push(2);
+        } else if (
+          this.attackGrid[row][col] == 1 &&
+          this.shipGrid[row][col].isSunk()
+        ) {
+          //Sunk
+          board[row].push(4);
+        } else if (
+          this.attackGrid[row][col] == 1 &&
+          !this.shipGrid[row][col].isSunk()
+        ) {
+          //Hit
+          board[row].push(1);
+        }
+      }
+    }
+    return board;
+  }
+
+  getPrivateBoard() {
+    const board = [];
+    for (let row = 0; row < this.gridSize; row++) {
+      board.push([]);
+      for (let col = 0; col < this.gridSize; col++) {
+        if (
+          this.attackGrid[row][col] == null &&
+          this.shipGrid[row][col] != null
+        ) {
+          //Ship
+          board[row].push(3);
+        } else if (this.attackGrid[row][col] == null) {
+          //Empty
+          board[row].push(0);
+        } else if (this.attackGrid[row][col] == 0) {
+          //Miss
+          board[row].push(2);
+        } else if (
+          this.attackGrid[row][col] == 1 &&
+          this.shipGrid[row][col].isSunk()
+        ) {
+          //Sunk
+          board[row].push(4);
+        } else if (
+          this.attackGrid[row][col] == 1 &&
+          !this.shipGrid[row][col].isSunk()
+        ) {
+          //Hit
+          board[row].push(1);
+        }
+      }
+    }
+    return board;
   }
 }

@@ -14,4 +14,8 @@ export class Player {
   checkState() {
     return this.gameboard.allShipsSunk();
   }
+
+  placeShip(size, row, col, aligment) {
+    return this.gameboard.placeShip(new Ship(size), row, col, aligment);
+  }
 }
