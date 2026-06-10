@@ -1,13 +1,4 @@
 export class DOMController {
-  reset() {
-    const winDiv = document.getElementById("win-text");
-    winDiv.innerHTML = "";
-    const enemy = document.getElementById("enemy-board");
-    enemy.innerHTML = "";
-    const player = document.getElementById("player-board");
-    player.innerHTML = "";
-  }
-
   renderBoard(gameboardInstance, isEnemy) {
     if (isEnemy) {
       const boardDiv = document.getElementById("enemy-board");

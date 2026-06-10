@@ -38,6 +38,8 @@ function init_game(player) {
 
   let controller;
 
+  controller = new GameController(player);
+
   resetButton.addEventListener("click", () => {
     start_game();
   });
@@ -62,10 +64,6 @@ function init_game(player) {
       ui.displayWin(controller.getComputer().name);
     }
   });
-
-  ui.reset();
-
-  controller = new GameController(player);
 
   ui.renderBoard(controller.getPlayer().gameboard, false);
   ui.renderBoard(controller.getComputer().gameboard, true);
