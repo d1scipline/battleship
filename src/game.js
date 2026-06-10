@@ -12,10 +12,7 @@ export class GameController {
   }
 
   initializeShips() {
-    this.player.placeShip(3, 1, 1, "H");
-    this.player.placeShip(5, 4, 4, "V");
-    this.computer.placeShip(5, 3, 3, "H");
-    this.computer.placeShip(3, 6, 5, "V");
+    this.computer.placeRandomly();
   }
 
   getPlayer() {

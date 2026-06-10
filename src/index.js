@@ -5,39 +5,65 @@ import "./style.css";
 
 const ui = new DOMController();
 
-const resetButton = document.getElementById("restart-btn");
-const enemyBoard = document.getElementById("enemy-board");
+function start_game() {
+  ui.clearEverything();
+  ui.startingScreen();
+  let player;
+  let shipsList = false;
 
-let controller;
+  let replaceButton = document.getElementById("new-conf");
+  let startButton = document.getElementById("start-button");
 
-resetButton.addEventListener("click", () => {
-  init_game();
-});
+  replaceButton.addEventListener("click", () => {
+    player = new Player();
+    player.placeRandomly();
+    ui.renderPlacement(player);
+    shipsList = true;
+  });
 
-enemyBoard.addEventListener("click", (e) => {
-  if (!controller) return;
+  startButton.addEventListener("click", () => {
+    if (!shipsList) {
+      return;
+    } else {
+      init_game(player);
+    }
+  });
+}
 
-  const cell = e.target.closest(".grid-cell");
-  if (!cell) return;
+function init_game(player) {
+  ui.clearEverything();
+  ui.initiateGame();
+  const resetButton = document.getElementById("restart-btn");
+  const enemyBoard = document.getElementById("enemy-board");
 
-  const row = cell.dataset.row;
-  const col = cell.dataset.col;
+  let controller;
 
-  let result = controller.handleTurn(row, col);
+  resetButton.addEventListener("click", () => {
+    start_game();
+  });
 
-  ui.renderBoard(controller.getPlayer().gameboard, false);
-  ui.renderBoard(controller.getComputer().gameboard, true);
+  enemyBoard.addEventListener("click", (e) => {
+    if (!controller) return;
 
-  if (result === "player-win") {
-    ui.displayWin(controller.getPlayer().name);
-  } else if (result === "computer-win") {
-    ui.displayWin(controller.getComputer().name);
-  }
-});
+    const cell = e.target.closest(".grid-cell");
+    if (!cell) return;
 
-function init_game() {
+    const row = cell.dataset.row;
+    const col = cell.dataset.col;
+
+    let result = controller.handleTurn(row, col);
+
+    ui.renderBoard(controller.getPlayer().gameboard, false);
+    ui.renderBoard(controller.getComputer().gameboard, true);
+
+    if (result === "player-win") {
+      ui.displayWin(controller.getPlayer().name);
+    } else if (result === "computer-win") {
+      ui.displayWin(controller.getComputer().name);
+    }
+  });
+
   ui.reset();
-  const player = new Player("Player");
 
   controller = new GameController(player);
 
@@ -45,4 +71,4 @@ function init_game() {
   ui.renderBoard(controller.getComputer().gameboard, true);
 }
 
-init_game();
+start_game();

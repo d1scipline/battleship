@@ -64,4 +64,70 @@ export class DOMController {
     winDiv.innerHTML = "";
     winDiv.innerHTML = winText;
   }
+
+  clearEverything() {
+    const body = document.getElementsByTagName("body")[0];
+    body.innerHTML = "";
+  }
+
+  startingScreen() {
+    const body = document.getElementsByTagName("body")[0];
+    const board = document.createElement("div");
+    board.classList.add("board");
+    body.appendChild(board);
+    const newConfButton = document.createElement("button");
+    newConfButton.id = "new-conf";
+    newConfButton.innerText = "New Placement";
+    const startGameButton = document.createElement("button");
+    startGameButton.id = "start-button";
+    startGameButton.innerText = "Start Game";
+    const buttonDiv = document.createElement("div");
+    buttonDiv.classList.add("button-div");
+    buttonDiv.appendChild(newConfButton);
+    buttonDiv.appendChild(startGameButton);
+    body.appendChild(buttonDiv);
+
+    for (let r = 0; r < 10; r++) {
+      for (let c = 0; c < 10; c++) {
+        const cell = document.createElement("div");
+        cell.classList.add("grid-cell");
+        cell.classList.add("empty");
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        board.appendChild(cell);
+      }
+    }
+  }
+
+  renderPlacement(player) {
+    const board = player.gameboard.getPrivateBoard();
+    const boardDiv = document.getElementsByClassName("board")[0];
+    boardDiv.innerHTML = "";
+    for (let r = 0; r < 10; r++) {
+      for (let c = 0; c < 10; c++) {
+        const cell = document.createElement("div");
+        cell.classList.add("grid-cell");
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        if (board[r][c] == 0) {
+          cell.classList.add("empty");
+        } else if (board[r][c] == 3) {
+          cell.classList.add("ship");
+        }
+        boardDiv.appendChild(cell);
+      }
+    }
+  }
+
+  initiateGame() {
+    const container = document.body;
+    container.innerHTML = `
+  <div id="win-text"></div>
+  <div class="boards-div">
+    <div class="board" id="player-board"></div>
+    <div class="board" id="enemy-board"></div>
+  </div>
+  <button id="restart-btn">Restart</button>
+`;
+  }
 }

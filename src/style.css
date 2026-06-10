@@ -243,7 +243,9 @@ input[type="reset"] {
   outline: inherit;
 }
 
-#restart-btn {
+#restart-btn,
+#new-conf,
+#start-button {
   background-color: rgb(145, 76, 214);
   padding: 10px 10px;
   color: rgba(255, 255, 255, 0.418);
@@ -251,8 +253,15 @@ input[type="reset"] {
   border-radius: 8px;
 }
 
-#restart-btn:hover {
+#restart-btn:hover,
+#new-conf:hover,
+#start-button:hover {
   background-color: rgb(119, 58, 181);
   color: white;
   border-color: white;
+}
+
+.button-div {
+  display: flex;
+  gap: 20px;
 }
