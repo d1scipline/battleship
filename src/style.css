@@ -172,6 +172,8 @@ body {
 body {
   background-color: rebeccapurple;
   display: flex;
+  gap: 20px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
@@ -222,4 +224,35 @@ body {
 
 .sunk {
   background-color: #2c3e50;
+}
+
+#win-text {
+  color: #eceff1;
+  font-size: xx-large;
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+#restart-btn {
+  background-color: rgb(145, 76, 214);
+  padding: 10px 10px;
+  color: rgba(255, 255, 255, 0.418);
+  border: solid rgba(255, 255, 255, 0.221) 2px;
+  border-radius: 8px;
+}
+
+#restart-btn:hover {
+  background-color: rgb(119, 58, 181);
+  color: white;
+  border-color: white;
 }
