@@ -1,6 +1,5 @@
 import { Computer } from "./computer";
-import { renderStuff } from "./dom_controller";
-import { Player } from "./player";
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class GameController {
   constructor(player) {
@@ -43,7 +42,10 @@ export class GameController {
     if (result == -1) {
       return -1;
     } else if (result == 0) {
-      this.computer.attack(this.player);
+      let computerResult = this.computer.attack(this.player);
+      while (computerResult == 1) {
+        computerResult = this.computer.attack(this.player);
+      }
       return this.checkWin();
     } else if (result == 1) {
       return this.checkWin();

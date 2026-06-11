@@ -73,28 +73,28 @@ export class Gameboard {
     if (direction === "H") {
       //Check beginning column
       for (let i = 0; i < 3; i++) {
-        let object = this.shipGrid.at(row - 1 + i)?.at(col - 1) ?? null;
+        let object = this.shipGrid[row - 1 + i]?.[col - 1] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check end column
       for (let i = 0; i < 3; i++) {
-        let object = this.shipGrid.at(row - 1 + i)?.at(col + size) ?? null;
+        let object = this.shipGrid[row - 1 + i]?.[col + size] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check top row
       for (let i = 0; i < size; i++) {
-        let object = this.shipGrid.at(row + 1)?.at(col + i) ?? null;
+        let object = this.shipGrid[row + 1]?.[col + i] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check bottom row
       for (let i = 0; i < size; i++) {
-        let object = this.shipGrid.at(row - 1)?.at(col + i) ?? null;
+        let object = this.shipGrid[row - 1]?.[col + i] ?? null;
         if (object != null) {
           return false;
         }
@@ -102,28 +102,28 @@ export class Gameboard {
     } else if (direction === "V") {
       //Check top row
       for (let i = 0; i < 3; i++) {
-        let object = this.shipGrid.at(row - 1)?.at(col - 1 + i) ?? null;
+        let object = this.shipGrid[row - 1]?.[col - 1 + i] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check bottom row
       for (let i = 0; i < 3; i++) {
-        let object = this.shipGrid.at(row + size)?.at(col - 1 + i) ?? null;
+        let object = this.shipGrid[row + size]?.[col - 1 + i] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check left column (Fixed: col - 1)
       for (let i = 0; i < size; i++) {
-        let object = this.shipGrid.at(row + i)?.at(col - 1) ?? null;
+        let object = this.shipGrid[row + i]?.[col - 1] ?? null;
         if (object != null) {
           return false;
         }
       }
       //Check right column (Fixed: row + i and col + 1)
       for (let i = 0; i < size; i++) {
-        let object = this.shipGrid.at(row + i)?.at(col + 1) ?? null;
+        let object = this.shipGrid[row + i]?.[col + 1] ?? null;
         if (object != null) {
           return false;
         }
@@ -131,6 +131,7 @@ export class Gameboard {
     }
     return true;
   }
+
   placeShip(ship, row, col, direction) {
     if (!this.checkBorders(ship, row, col, direction)) {
       return false;
