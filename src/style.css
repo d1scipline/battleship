@@ -202,7 +202,7 @@ body {
   background-color: white;
 }
 
-.grid-cell:hover {
+.empty:hover {
   background-color: lightblue;
 }
 

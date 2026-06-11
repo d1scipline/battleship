@@ -44,8 +44,8 @@ function init_game(player) {
     start_game();
   });
 
-  enemyBoard.addEventListener("click", (e) => {
-    if (!controller) return;
+  enemyBoard.addEventListener("click", async (e) => {
+    if (!controller || controller.isGameOver) return;
 
     const cell = e.target.closest(".grid-cell");
     if (!cell) return;
@@ -53,15 +53,23 @@ function init_game(player) {
     const row = cell.dataset.row;
     const col = cell.dataset.col;
 
-    let result = controller.handleTurn(row, col);
+    // Temporarily freeze the grid container pointer clicks so the player can't click during the pause
+    enemyBoard.style.pointerEvents = "none";
 
-    ui.renderBoard(controller.getPlayer().gameboard, false);
-    ui.renderBoard(controller.getComputer().gameboard, true);
+    // Pass a inline arrow function as the renderCallback argument
+    let result = await controller.handleTurn(row, col, () => {
+      ui.renderBoard(controller.getPlayer().gameboard, false);
+      ui.renderBoard(controller.getComputer().gameboard, true);
+    });
 
     if (result === "player-win") {
       ui.displayWin(controller.getPlayer().name);
     } else if (result === "computer-win") {
       ui.displayWin(controller.getComputer().name);
+    } else if (result !== -1) {
+      enemyBoard.style.pointerEvents = "auto";
+    } else {
+      enemyBoard.style.pointerEvents = "auto";
     }
   });
 
